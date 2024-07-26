@@ -17,7 +17,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("ADD COMMON INTERCEPTORS");
         registry.addInterceptor(jwtTokenInterceptor())
-//            .addPathPatterns("/user/findAll")
             .addPathPatterns("/**")
             .excludePathPatterns(
                 "/static/**",
