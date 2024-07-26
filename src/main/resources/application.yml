@@ -1,1 +1,19 @@
-spring.application.name=spring-security-token
+server:
+  port: 8095
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: password
