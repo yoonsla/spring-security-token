@@ -1,8 +1,8 @@
 package com.sy.springsecuritytoken.security.handler;
 
 import com.sy.springsecuritytoken.constants.AuthConstants;
-import com.sy.springsecuritytoken.user.domain.Account;
-import com.sy.springsecuritytoken.user.domain.AccountDetail;
+import com.sy.springsecuritytoken.security.AccountInfo;
+import com.sy.springsecuritytoken.user.service.dto.SecurityUserDetailsDto;
 import com.sy.springsecuritytoken.util.TokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,8 +13,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        final AccountDetail accountDetail = (AccountDetail) authentication.getPrincipal();
-        final Account account = accountDetail.getAccount();
+        final SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) authentication.getPrincipal();
+        final AccountInfo account = securityUserDetailsDto.getAccount();
         final String token = TokenUtil.generateJwtToken(account);
         response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + token);
     }

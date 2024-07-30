@@ -1,5 +1,6 @@
-package com.sy.springsecuritytoken.user.domain;
+package com.sy.springsecuritytoken.user.service.dto;
 
+import com.sy.springsecuritytoken.security.AccountInfo;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @AllArgsConstructor
-public class AccountDetail implements UserDetails {
+public class SecurityUserDetailsDto implements UserDetails {
 
-    private Account account;
-    private Collection<? extends GrantedAuthority> authorities;
+    private AccountInfo account;
+    private Collection<? extends GrantedAuthority> authorities; // 해당 사용자에게 부여된 권한
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,21 +31,21 @@ public class AccountDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return account.getIsEnable();
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return account.getIsEnable();
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return account.getIsEnable();
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return account.getIsEnable();
+        return false;
     }
 }

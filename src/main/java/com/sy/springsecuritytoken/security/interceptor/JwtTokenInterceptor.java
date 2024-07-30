@@ -1,18 +1,21 @@
-package com.sy.springsecuritytoken.interceptor;
+package com.sy.springsecuritytoken.security.interceptor;
 
 import com.sy.springsecuritytoken.annotation.AnonymousCallable;
 import com.sy.springsecuritytoken.constants.AuthConstants;
+import com.sy.springsecuritytoken.exception.AuthenticationProcessingException;
+import com.sy.springsecuritytoken.response.ResponseCode;
 import com.sy.springsecuritytoken.util.TokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Log4j2
+@Component
 public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
@@ -20,7 +23,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod handlerMethod)) {
             return true;
         }
-        if (HttpMethod.OPTIONS.matches(httpRequest.getMethod())) {
+        if (httpRequest.getRequestURI().equals("/favicon.ico")) {
             return true;
         }
         final Method method = handlerMethod.getMethod();
@@ -32,8 +35,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             TokenUtil.validToken(accessToken);
             return true;
         }
-        httpResponse.sendRedirect("/error/unauthorized");
-        return false;
+        throw new AuthenticationProcessingException(ResponseCode.INVALID_AUTHENTICATION);
     }
 
     private boolean isAnonymousCallable(Method method) {

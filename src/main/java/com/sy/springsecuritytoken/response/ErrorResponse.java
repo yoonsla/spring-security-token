@@ -1,6 +1,5 @@
-package com.sy.springsecuritytoken.error.controller.response;
+package com.sy.springsecuritytoken.response;
 
-import com.sy.springsecuritytoken.response.ResponseCode;
 import lombok.Getter;
 
 @Getter
@@ -10,7 +9,7 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
-    private ErrorResponse(ResponseCode errorCode) {
+    public ErrorResponse(ResponseCode errorCode) {
         this.error = errorCode.name();
         this.code = errorCode.getCode();
         this.message = errorCode.getMessage();

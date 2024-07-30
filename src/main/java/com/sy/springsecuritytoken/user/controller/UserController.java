@@ -11,24 +11,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/user")
 public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/user/login")
+    public Response<Void> authenticateUser() {
+        return Response.OK;
+    }
+
     @AnonymousCallable
-    @PostMapping(value = "/sign-up")
+    @PostMapping(value = "/user/sign-up")
     public Response<String> signUp(@RequestBody SignUpCommand command) {
         final SignUpDto dto = userService.signUp(command);
         return new Response<>(dto.getEmail());
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public Response<List<UserListResponse>> findAll() {
         List<UserListResponse> response = userService.findAll().stream()
             .map(UserListResponse::from)

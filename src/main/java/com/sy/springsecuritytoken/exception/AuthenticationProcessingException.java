@@ -1,14 +1,23 @@
 package com.sy.springsecuritytoken.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import com.sy.springsecuritytoken.response.ResponseCode;
+import lombok.Getter;
 
-public class AuthenticationProcessingException extends AuthenticationException {
+@Getter
+public class AuthenticationProcessingException extends RuntimeException {
 
-    public AuthenticationProcessingException(String message, Throwable throwable) {
-        super(message, throwable);
+    private ResponseCode responseCode = ResponseCode.INVALID_AUTHENTICATION;
+
+    public AuthenticationProcessingException() {
+        super(ResponseCode.INVALID_AUTHENTICATION.getMessage());
     }
 
-    public AuthenticationProcessingException(String message) {
-        super(message);
+    public AuthenticationProcessingException(Throwable cause) {
+        super(ResponseCode.INVALID_AUTHENTICATION.getMessage(), cause);
+    }
+
+    public AuthenticationProcessingException(ResponseCode responseCode) {
+        super(responseCode.getMessage());
+        this.responseCode = responseCode;
     }
 }
